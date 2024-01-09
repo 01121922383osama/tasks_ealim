@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887453963667",
+    "project_id": "task-ealim",
+    "storage_bucket": "task-ealim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887453963667:android:ce73ddc5802b66e800c466",
+        "android_client_info": {
+          "package_name": "com.example.tasks_ealim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5titjoCHtziesL6fte8Cf5G-AZJYFdJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
