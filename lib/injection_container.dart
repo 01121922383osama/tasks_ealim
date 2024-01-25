@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:tasks_ealim/Core/Services/notificationserver.dart';
+import 'Core/Services/notificationserver.dart';
+import 'features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
 
 import 'features/Auth/data/datasources/Remote_Data_Source/firebase_remote_data_source.dart';
 import 'features/Auth/data/repositories/firebase_repository_impl.dart';
@@ -53,13 +54,14 @@ Future<void> init() async {
     () => CredentialCubit(
       loginUseCases: sl.call(),
       registerUseCases: sl.call(),
-      sendPasswordResetEmailUseCases: sl.call(),
       logoutUseCases: sl.call(),
       currentUserIdUseCases: sl.call(),
       getCurrentUserUseCases: sl.call(),
       uploadImage: sl.call(),
     ),
   );
+  sl.registerFactory<ForegetPasswordCubit>(
+      () => ForegetPasswordCubit(sendPasswordResetEmailUseCases: sl.call()));
 
   // ////////////////
   sl.registerFactory<AuthenticationCubit>(

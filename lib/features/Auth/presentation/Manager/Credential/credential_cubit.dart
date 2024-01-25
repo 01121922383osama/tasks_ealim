@@ -10,7 +10,6 @@ import '../../../domain/usecases/get_current_user_usecases.dart';
 import '../../../domain/usecases/login_use_cases_usecases.dart';
 import '../../../domain/usecases/logout_use_cases_usecases.dart';
 import '../../../domain/usecases/register_use_cases.dart';
-import '../../../domain/usecases/send_password_reset_email_use_cases.dart';
 import '../../../domain/usecases/uploa_image_useases.dart';
 
 part 'credential_state.dart';
@@ -18,7 +17,6 @@ part 'credential_state.dart';
 class CredentialCubit extends Cubit<CredentialState> {
   final LoginUseCases loginUseCases;
   final RegisterUseCases registerUseCases;
-  final SendPasswordResetEmailUseCases sendPasswordResetEmailUseCases;
   final LogoutUseCases logoutUseCases;
   final CurrentUserIdUseCases currentUserIdUseCases;
   final GetCurrentUserUseCases getCurrentUserUseCases;
@@ -26,8 +24,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   CredentialCubit({
     required this.loginUseCases,
     required this.registerUseCases,
-    required this.sendPasswordResetEmailUseCases,
-    required this.logoutUseCases,
+     required this.logoutUseCases,
     required this.currentUserIdUseCases,
     required this.getCurrentUserUseCases,
     required this.uploadImage,
@@ -81,15 +78,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     }
   }
 
-  Future<void> sendPasswordResetEmail({required String email}) async {
-    emit(CredentialLoading());
-    try {
-      await sendPasswordResetEmailUseCases.call(email);
-      emit(CredentialISuccess());
-    } catch (e) {
-      emit(CredentialFailure(message: e.toString()));
-    }
-  }
+ 
 
   Future<void> logout() async {
     try {

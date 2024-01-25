@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tasks_ealim/Core/Widgets/custom_texts.dart';
-import 'package:tasks_ealim/features/Chat/presentation/widgets/body_all_users_page.dart';
 
 import '../../../../Core/Widgets/check_internet.dart';
+import '../../../../Core/Widgets/custom_texts.dart';
+import '../widgets/body_all_users_page.dart';
 
 class AllUsersPage extends StatelessWidget {
   const AllUsersPage({super.key});

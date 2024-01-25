@@ -1,9 +1,10 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
+import 'package:video_player/video_player.dart';
+
 import '../../../../Core/Utils/app_colors.dart';
 import '../../../../Core/Utils/media_query_value.dart';
-import 'package:video_player/video_player.dart';
 
 class BuildVideoWidget extends StatelessWidget {
   final String url;

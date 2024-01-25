@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:hive/hive.dart';
+import '../../../Tasks/domain/entities/task_user_entie.dart';
 
 import '../../../../Config/Routes/routs_name.dart';
 import '../../../../Core/Helper/storage.dart';
@@ -31,7 +33,7 @@ class LoginPageBody extends StatelessWidget {
               const HeadLoginPage(),
               CustomTextField(
                 onChanged: (value) {
-                  BlocProvider.of<SignInBloc>(context).add(EmailEvent(value));
+                  BlocProvider.of<SignInBloc>(context).add(EmailEvent(value.trim()));
                 },
                 obscureText: false,
                 text: AppStrings.email,
@@ -42,7 +44,7 @@ class LoginPageBody extends StatelessWidget {
                   return CustomTextField(
                     onChanged: (value) {
                       BlocProvider.of<SignInBloc>(context)
-                          .add(PasswordEvent(value));
+                          .add(PasswordEvent(value.trim()));
                     },
                     prefixIcon: const Icon(Icons.lock),
                     obscureText: !state,
@@ -113,6 +115,13 @@ class LoginPageBody extends StatelessWidget {
                           password: stateSignIn.password,
                         ),
                       );
+                      await Hive.openBox<TaskUserEntiy>(AppStrings.allTaskHive);
+                      await Hive.openBox<TaskUserEntiy>(
+                          AppStrings.programingHive);
+                      await Hive.openBox<TaskUserEntiy>(
+                          AppStrings.marktingHive);
+                      await Hive.openBox<TaskUserEntiy>(AppStrings.suportHive);
+                      await Hive.openBox<TaskUserEntiy>(AppStrings.designHive);
                     }
                   },
                   width: context.width * 0.9,

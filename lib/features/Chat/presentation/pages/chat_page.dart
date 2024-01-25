@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tasks_ealim/Core/Services/notificationserver.dart';
-import 'package:tasks_ealim/Core/Utils/app_shadow.dart';
-import 'package:tasks_ealim/features/Chat/presentation/widgets/body_all_users_page.dart';
+import '../../../../Core/Services/notificationserver.dart';
+import '../../../../Core/Utils/app_shadow.dart';
+import '../widgets/body_all_users_page.dart';
 
 import '../../../../Core/Widgets/check_internet.dart';
 

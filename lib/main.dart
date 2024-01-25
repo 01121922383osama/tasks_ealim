@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
 
 import 'Config/Routes/app_routes.dart';
 import 'Config/Routes/routs_name.dart';
@@ -36,8 +37,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseMessaging.instance.getInitialMessage();
-  FirebaseMessaging.onBackgroundMessage(
-      (message) async => await _backgroundMessageHandler(message));
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Hive.initFlutter();
   await di.init();
   Hive.registerAdapter(TaskUserEntiyAdapter());
@@ -52,12 +52,8 @@ void main() async {
 }
 
 @pragma('vm:entry-point')
-Future<void> _backgroundMessageHandler(RemoteMessage? message) async {
-  if (message != null) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
 }
 
 class MyApp extends StatelessWidget {
@@ -99,6 +95,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.sl<TasksCubit>(),
+        ),
+        BlocProvider(
+          create: (_) => di.sl<ForegetPasswordCubit>(),
         ),
         BlocProvider(
           create: (_) => PickImageRegisterCubit(),

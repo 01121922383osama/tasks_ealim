@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasks_ealim/Core/Utils/app_colors.dart';
+import 'app_colors.dart';
 
 List<Shadow> shadow = [
   const BoxShadow(

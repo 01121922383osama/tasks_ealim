@@ -5,8 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
+import '../../features/Chat/presentation/widgets/build_chat_message.dart';
 
 class NotificationService {
   static const String key =
@@ -119,6 +121,26 @@ class NotificationService {
 
   void firebaseNotification(context) {
     _initLocalNotification();
+// message.data['senderId']
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ChatUserMessagesPage(
+              room: null, uid: message.data[message.data['uuid']]),
+        ),
+      );
+    });
+
+    /*
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ChatScreen(userId: message.data['senderId']),
+        ),
+      );
+    });
+  */
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       await _showLocalNotification(message);
     });

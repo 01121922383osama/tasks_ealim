@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:hive/hive.dart';
+import '../../../Tasks/domain/entities/task_user_entie.dart';
 
 import '../../../../Config/Routes/routs_name.dart';
 import '../../../../Core/Helper/randome_uid.dart';
@@ -44,7 +46,7 @@ class RegisterPageBody extends StatelessWidget {
                     CustomTextField(
                       onChanged: (value) {
                         BlocProvider.of<RegisterBlocs>(context)
-                            .add(UserNameEvent(value));
+                            .add(UserNameEvent(value.trim()));
                       },
                       obscureText: false,
                       text: AppStrings.name,
@@ -53,7 +55,7 @@ class RegisterPageBody extends StatelessWidget {
                     CustomTextField(
                       onChanged: (value) {
                         BlocProvider.of<RegisterBlocs>(context)
-                            .add(EmailEvent(value));
+                            .add(EmailEvent(value.trim()));
                       },
                       obscureText: false,
                       text: AppStrings.email,
@@ -64,7 +66,7 @@ class RegisterPageBody extends StatelessWidget {
                         return CustomTextField(
                           onChanged: (value) {
                             BlocProvider.of<RegisterBlocs>(context)
-                                .add(PasswordEvent(value));
+                                .add(PasswordEvent(value.trim()));
                           },
                           prefixIcon: const Icon(Icons.lock),
                           obscureText: !state,
@@ -145,6 +147,16 @@ class RegisterPageBody extends StatelessWidget {
                               ),
                             );
                           }
+                          await Hive.openBox<TaskUserEntiy>(
+                              AppStrings.allTaskHive);
+                          await Hive.openBox<TaskUserEntiy>(
+                              AppStrings.programingHive);
+                          await Hive.openBox<TaskUserEntiy>(
+                              AppStrings.marktingHive);
+                          await Hive.openBox<TaskUserEntiy>(
+                              AppStrings.suportHive);
+                          await Hive.openBox<TaskUserEntiy>(
+                              AppStrings.designHive);
                         },
                         width: context.width * 0.9,
                         height: context.height * 0.08,

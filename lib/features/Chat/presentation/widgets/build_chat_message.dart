@@ -13,18 +13,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:tasks_ealim/Core/Services/notificationserver.dart';
-import 'package:tasks_ealim/Core/Widgets/check_internet.dart';
+
+import '../../../../Core/Services/notificationserver.dart';
+import '../../../../Core/Widgets/check_internet.dart';
 
 class ChatUserMessagesPage extends StatefulWidget {
   const ChatUserMessagesPage({
     super.key,
-    required this.room,
+      this.room,
     this.name,
     required this.uid,
   });
   final String? name;
-  final types.Room room;
+  final types.Room? room;
   final String uid;
   @override
   State<ChatUserMessagesPage> createState() => _ChatUserMessagesPageState();
@@ -105,7 +106,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
           uri: uri,
         );
 
-        FirebaseChatCore.instance.sendMessage(message, widget.room.id);
+        FirebaseChatCore.instance.sendMessage(message, widget.room!.id);
         _setAttachmentUploading(false);
       } finally {
         _setAttachmentUploading(false);
@@ -143,7 +144,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
 
         FirebaseChatCore.instance.sendMessage(
           message,
-          widget.room.id,
+          widget.room!.id,
         );
         _setAttachmentUploading(false);
       } finally {
@@ -161,7 +162,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
           final updatedMessage = message.copyWith(isLoading: true);
           FirebaseChatCore.instance.updateMessage(
             updatedMessage,
-            widget.room.id,
+            widget.room!.id,
           );
 
           final client = http.Client();
@@ -178,7 +179,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
           final updatedMessage = message.copyWith(isLoading: false);
           FirebaseChatCore.instance.updateMessage(
             updatedMessage,
-            widget.room.id,
+            widget.room!.id,
           );
         }
       }
@@ -193,7 +194,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
   ) {
     final updatedMessage = message.copyWith(previewData: previewData);
 
-    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.room.id);
+    FirebaseChatCore.instance.updateMessage(updatedMessage, widget.room!.id);
   }
 
   void _handleSendPressed(types.PartialText message) async {
@@ -201,7 +202,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
     if (senderId != null) {
       FirebaseChatCore.instance.sendMessage(
         message,
-        widget.room.id,
+        widget.room!.id,
       );
       await notificationsService.sendNotification(
         body: message.text,
@@ -226,7 +227,7 @@ class _ChatUserMessagesPageState extends State<ChatUserMessagesPage> {
             ),
             body: StreamBuilder<types.Room>(
               initialData: widget.room,
-              stream: FirebaseChatCore.instance.room(widget.room.id),
+              stream: FirebaseChatCore.instance.room(widget.room!.id),
               builder: (context, snapshot) =>
                   StreamBuilder<List<types.Message>>(
                 initialData: const [],

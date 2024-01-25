@@ -48,7 +48,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     ).toDocumentSnapshot();
 
     await collection.doc(taskUserEntiy.id).set(newUser);
-    //! }
   }
 
   ////////////////////////////////////////////!!

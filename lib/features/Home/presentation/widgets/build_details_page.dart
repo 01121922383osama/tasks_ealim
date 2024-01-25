@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
 import '../../../../Core/Utils/app_colors.dart';
 import '../../../../Core/Utils/media_query_value.dart';
 import '../../../../Core/Widgets/custom_texts.dart';
-import 'build_video_view.dart';
 import '../../../Tasks/domain/entities/task_user_entie.dart';
+import 'build_video_view.dart';
 
 class DetailsPage extends StatelessWidget {
   final TaskUserEntiy taskUserEntiy;

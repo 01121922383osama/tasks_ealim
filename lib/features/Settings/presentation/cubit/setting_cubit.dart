@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../Auth/domain/entities/usr_entities.dart';
 import '../../../Auth/domain/usecases/get_current_user_id_use_cases.dart';
 import '../../domain/usecases/get_current_userdata_usecases.dart';

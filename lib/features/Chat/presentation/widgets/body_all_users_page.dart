@@ -4,10 +4,9 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:tasks_ealim/Core/Widgets/custom_texts.dart';
-import 'package:tasks_ealim/features/Chat/presentation/widgets/build_chat_message.dart';
 
 import '../../../../Core/Utils/app_colors.dart';
+import 'build_chat_message.dart';
 
 class BodyAllUsersPage extends StatelessWidget {
   const BodyAllUsersPage({super.key});
@@ -96,7 +95,7 @@ class BodyAllUsersPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                title: CustomTexts(text: data[index].firstName!),
+                title: Text(data[index].firstName!),
                 trailing: CircleAvatar(
                   backgroundColor: AppColors.grey.withOpacity(0.3),
                   child: Text('${index + 1}'),
@@ -106,7 +105,7 @@ class BodyAllUsersPage extends StatelessWidget {
           );
         } else {
           return const Center(
-            child: Text('Error'),
+            child: Text('Somthing wrong happened'),
           );
         }
       },

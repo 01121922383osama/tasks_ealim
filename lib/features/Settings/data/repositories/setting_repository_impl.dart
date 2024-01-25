@@ -1,6 +1,6 @@
 import '../../../Auth/domain/entities/usr_entities.dart';
-import '../datasources/RemoteDataSource/setting_remote_datasource.dart';
 import '../../domain/repositories/setting_repository.dart';
+import '../datasources/RemoteDataSource/setting_remote_datasource.dart';
 
 class SettingRepositoryImpl implements SettingRepository {
   final SettingRemoteDataSource settingRemoteDataSource;
