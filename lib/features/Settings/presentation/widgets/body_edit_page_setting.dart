@@ -136,7 +136,7 @@ class _BodyEditPageSettingState extends State<BodyEditPageSetting> {
                           isOnline: widget.userEntity.isOnline,
                         ),
                       )
-                          .then((value) {
+                          .whenComplete(() {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Colors.green,

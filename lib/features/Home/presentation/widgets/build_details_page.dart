@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tasks_ealim/Core/Utils/app_shadow.dart';
+import 'package:tasks_ealim/features/Home/presentation/widgets/edit_tasks_page.dart';
 
 import '../../../../Core/Utils/app_colors.dart';
-import '../../../../Core/Utils/app_string.dart';
 import '../../../../Core/Utils/media_query_value.dart';
 import '../../../../Core/Widgets/custom_texts.dart';
 import '../../../Tasks/domain/entities/task_user_entie.dart';
@@ -22,83 +23,89 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          taskUserEntiy.tasks != AppStrings.allTaskHive
-              ? PopupMenuButton(
-                  itemBuilder: (context) {
-                    return [
-                      const PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit),
-                            SizedBox(width: 10),
-                            Text('Edit'),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: const Row(
-                          children: [
-                            Icon(CupertinoIcons.delete),
-                            SizedBox(width: 10),
-                            Text('Delete'),
-                          ],
-                        ),
-                        onTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Delete'),
-                                content: const Text('Are you sure?'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('No'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      BlocProvider.of<TasksCubit>(context)
-                                          .deleteTask(
-                                              taskUserEntiy: taskUserEntiy)
-                                          .then((value) async {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            backgroundColor: Colors.green,
-                                            animation:
-                                                const AlwaysStoppedAnimation(1),
-                                            dismissDirection:
-                                                DismissDirection.startToEnd,
-                                            behavior: SnackBarBehavior.floating,
-                                            showCloseIcon: true,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                            ),
-                                            content: const Text(
-                                                'Deleted Successfully'),
-                                          ),
-                                        );
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: const Text('Yes'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      ),
-                    ];
+          PopupMenuButton(
+            icon: Icon(
+              CupertinoIcons.pencil_ellipsis_rectangle,
+              color: AppColors.white,
+              shadows: shadow,
+            ),
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  value: 1,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.edit),
+                      SizedBox(width: 10),
+                      Text('Edit'),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          EditTasksPage(taskUserEntiy: taskUserEntiy),
+                    ));
                   },
-                )
-              : const SizedBox(),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: const Row(
+                    children: [
+                      Icon(CupertinoIcons.delete),
+                      SizedBox(width: 10),
+                      Text('Delete'),
+                    ],
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Delete'),
+                          content: const Text('Are you sure?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('No'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                BlocProvider.of<TasksCubit>(context)
+                                    .deleteTask(taskUserEntiy: taskUserEntiy)
+                                    .then((value) async {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.green,
+                                      animation:
+                                          const AlwaysStoppedAnimation(1),
+                                      dismissDirection:
+                                          DismissDirection.startToEnd,
+                                      behavior: SnackBarBehavior.floating,
+                                      showCloseIcon: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                      content:
+                                          const Text('Deleted Successfully'),
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: const Text('Yes'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ];
+            },
+          )
         ],
         title: Text(
           taskUserEntiy.tasks!,
@@ -164,14 +171,16 @@ class DetailsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            CachedNetworkImage(
-              imageUrl: taskUserEntiy.imageUrls!,
-              width: context.width * 0.9,
-              alignment: Alignment.center,
-              errorWidget: (context, url, error) {
-                return const SizedBox.shrink();
-              },
-            ),
+            taskUserEntiy.imageUrls!.isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: taskUserEntiy.imageUrls!,
+                    width: context.width * 0.9,
+                    alignment: Alignment.center,
+                    errorWidget: (context, url, error) {
+                      return const SizedBox.shrink();
+                    },
+                  )
+                : const SizedBox.shrink(),
             const SizedBox(height: 10),
             taskUserEntiy.videoUrl!.isNotEmpty
                 ? BuildVideoWidget(url: taskUserEntiy.videoUrl!)
