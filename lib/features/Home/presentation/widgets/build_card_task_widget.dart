@@ -29,7 +29,7 @@ class BuildTasksCardWidget extends StatelessWidget {
         if (snapshot.hasData) {
           final data = snapshot.data;
           return ListView.separated(
-            padding:ذ
+            padding:
                 const EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
             separatorBuilder: (context, index) => SizedBox(
               height: context.height * 0.01,
