@@ -105,9 +105,6 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<String> uploadImage(File file) async {
-    // final imageRef = _storage.ref(uid).child('Image${RandomUID.uuid}.jpg');
-    // final uploadTask = imageRef.putFile(file);
-    // await uploadTask.snapshot.ref.getDownloadURL();
     final uid = await getCurrentUserId();
     final imageTask = await _storage
         .ref(uid)

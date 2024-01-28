@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:get_it/get_it.dart';
-import 'Core/Services/notificationserver.dart';
-import 'features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
 
+import 'Core/Services/notificationserver.dart';
 import 'features/Auth/data/datasources/Remote_Data_Source/firebase_remote_data_source.dart';
 import 'features/Auth/data/repositories/firebase_repository_impl.dart';
 import 'features/Auth/domain/repositories/firebase_repository.dart';
@@ -18,6 +17,7 @@ import 'features/Auth/domain/usecases/send_password_reset_email_use_cases.dart';
 import 'features/Auth/domain/usecases/uploa_image_useases.dart';
 import 'features/Auth/presentation/Manager/Authentication/cubit/authentication_cubit.dart';
 import 'features/Auth/presentation/Manager/Credential/credential_cubit.dart';
+import 'features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
 import 'features/Chat/data/datasources/RemoteDataSource/chat_remote_data_source.dart';
 import 'features/Chat/data/repositories/chat_repository_impl.dart';
 import 'features/Chat/domain/repositories/chat_repository.dart';
@@ -27,8 +27,8 @@ import 'features/Settings/data/datasources/RemoteDataSource/setting_remote_datas
 import 'features/Settings/data/repositories/setting_repository_impl.dart';
 import 'features/Settings/domain/repositories/setting_repository.dart';
 import 'features/Settings/domain/usecases/get_current_userdata_usecases.dart';
+import 'features/Settings/domain/usecases/update_user_entity_usecases.dart';
 import 'features/Settings/presentation/cubit/setting_cubit.dart';
-import 'features/Tasks/data/datasources/TaskLocalDataSource/task_local_datasource.dart';
 import 'features/Tasks/data/datasources/TaskRemoteDataSource/task_remote_data_source.dart';
 import 'features/Tasks/data/repositories/task_repository_impl.dart';
 import 'features/Tasks/domain/repositories/task_repository.dart';
@@ -48,8 +48,6 @@ import 'features/Tasks/presentation/manager/cubit/tasks_cubit.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // bloc
-
   sl.registerFactory<CredentialCubit>(
     () => CredentialCubit(
       loginUseCases: sl.call(),
@@ -63,16 +61,15 @@ Future<void> init() async {
   sl.registerFactory<ForegetPasswordCubit>(
       () => ForegetPasswordCubit(sendPasswordResetEmailUseCases: sl.call()));
 
-  // ////////////////
   sl.registerFactory<AuthenticationCubit>(
       () => AuthenticationCubit(currentUserIdUseCases: sl.call()));
-  // ///////////////
+
   sl.registerFactory<ChatCubit>(() => ChatCubit(
         chatUseCases: sl.call(),
         currentUserIdUseCases: sl.call(),
         authenticationCubit: sl.call(),
       ));
-  // ///////////////
+
   sl.registerFactory<TasksCubit>(() => TasksCubit(
         createTaskUseCases: sl.call(),
         deleteTaskUseCases: sl.call(),
@@ -87,13 +84,12 @@ Future<void> init() async {
         getAllSupportTaskUseCases: sl.call(),
       ));
 
-// //////////////////
   sl.registerLazySingleton<SettingCubit>(() => SettingCubit(
         getCurrentUserDataUseCases: sl.call(),
         currentUserIdUseCases: sl.call(),
+        updateUserEntityUseCases: sl.call(),
       ));
 
-  // usecases
   sl.registerLazySingleton<GetCurrentUserUseCases>(
       () => GetCurrentUserUseCases(repository: sl.call()));
   sl.registerLazySingleton<LoginUseCases>(
@@ -112,7 +108,7 @@ Future<void> init() async {
       () => ChatUseCases(settingRepository: sl.call()));
   sl.registerLazySingleton<GetCurrentUserDataUseCases>(
       () => GetCurrentUserDataUseCases(settingRepository: sl.call()));
-  // ////////////////////////////////////////
+
   sl.registerLazySingleton<GetTaskByTaskNameUseCases>(
       () => GetTaskByTaskNameUseCases(taskRepository: sl.call()));
   sl.registerLazySingleton<GetAllTaskUseCases>(
@@ -127,7 +123,7 @@ Future<void> init() async {
       () => UploadVieoUseCases(taskRepository: sl.call()));
   sl.registerLazySingleton<UploadImageUsecases>(
       () => UploadImageUsecases(taskRepository: sl.call()));
-  // ////////////////////////////////////////
+
   sl.registerLazySingleton<GetAllProgramminTaskUseCases>(
       () => GetAllProgramminTaskUseCases(taskRepository: sl.call()));
   sl.registerLazySingleton<GetAllMarktingTaskUseCases>(
@@ -137,23 +133,20 @@ Future<void> init() async {
   sl.registerLazySingleton<GetAllDesignTaskUseCases>(
       () => GetAllDesignTaskUseCases(taskRepository: sl.call()));
 
-  // /////////////////////////////////////////
+  sl.registerLazySingleton<UpdateUserEntityUseCases>(
+      () => UpdateUserEntityUseCases(settingRepository: sl.call()));
 
-  // repositories
   sl.registerLazySingleton<FirebaseRepository>(
       () => FirebaseRepositoryImpl(firebaseRemoteDataSource: sl.call()));
   sl.registerLazySingleton<ChatRepository>(
       () => ChatRepositoryImpl(settingRemoteDataSource: sl.call()));
   sl.registerLazySingleton<SettingRepository>(
       () => SettingRepositoryImpl(settingRemoteDataSource: sl.call()));
-  // ////////////////////////////////////
+
   sl.registerLazySingleton<TaskRepository>(() => TaskRepositoryImpl(
         taskRemoteDataSource: sl.call(),
-        taskLocalDataSource: sl.call(),
       ));
-  // ////////////////////////////////////
 
-  // remoteDataSource
   sl.registerLazySingleton<FirebaseRemoteDataSource>(
     () => FirebaseRemoteDataSourceImpl(
       sl.call(),
@@ -163,7 +156,7 @@ Future<void> init() async {
       sl.call(),
     ),
   );
-  // //////////////////////////////////
+
   sl.registerLazySingleton<TaskRemoteDataSource>(
     () => TaskRemoteDataSourceImpl(
       storage: sl.call(),
@@ -171,22 +164,16 @@ Future<void> init() async {
     ),
   );
 
-  // ////////////////////////
   sl.registerLazySingleton<ChatRemoteDataSource>(
     () => ChatRemoteDataSourceImpl(firebaseFirestore: sl.call()),
   );
-  // //////////////////////
+
   sl.registerLazySingleton<SettingRemoteDataSource>(
-    () => SettingRemoteDataSourceImpl(firebaseFirestore: sl.call()),
+    () => SettingRemoteDataSourceImpl(
+      firebaseFirestore: sl.call(),
+      firebaseStorage: sl.call(),
+    ),
   );
-  // locadatasources
-  sl.registerLazySingleton<TaskLocalDataSource>(
-    () => TaskLocalDataSourceImpl(),
-  );
-
-  // //////////////////////!
-
-  // external sources
 
   final auth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
@@ -199,17 +186,3 @@ Future<void> init() async {
   sl.registerSingleton<FirebaseChatCore>(firebaseChatCore);
   sl.registerSingleton<NotificationService>(notificationService);
 }
-
- 
-
-
-
-/*
-all this for injection container=> {
-bloc
-repository
-remoteDataSource
-localDataSource
-External => lieks packages
-}
-*/ 

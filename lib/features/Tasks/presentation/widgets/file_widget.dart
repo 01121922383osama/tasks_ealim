@@ -21,31 +21,6 @@ class FilesWidget extends StatelessWidget {
                     return ListTile(
                       onTap: () {
                         context.read<FilePickerImageCubit>().pickImage();
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //     return CustomDialog(
-                        //       title: AppStrings.choseImage,
-                        //       oneImage: () {
-                        //         context
-                        //             .read<FilePickerImageCubit>()
-                        //             .pickImage();
-                        //         context
-                        //             .read<FilePickerMultiImagesCubit>()
-                        //             .deleteImages();
-                        //         Navigator.pop(context);
-                        //       },
-                        //       multiImage: () {
-                        //         context
-                        //             .read<FilePickerMultiImagesCubit>()
-                        //             .pickMultiImages();
-                        //         Navigator.pop(context);
-                        //       },
-                        //       text1: 'One',
-                        //       text2: 'multiple',
-                        //     );
-                        //   },
-                        // );
                       },
                       leading: stateMultiImages.multiImages.isNotEmpty
                           ? IconButton.filledTonal(

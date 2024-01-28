@@ -6,7 +6,7 @@ part 'file_picker_state.dart';
 
 class FilePickerImageCubit extends Cubit<FilePickerImageState> {
   FilePickerImageCubit() : super(FilePickerImageInitial(image: XFile('')));
-// picker_image_ one image
+
   Future<FilePickerImageState?> pickImage() async {
     ImagePicker imagePicker = ImagePicker();
     XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -22,10 +22,6 @@ class FilePickerImageCubit extends Cubit<FilePickerImageState> {
     emit(FilePickerImageInitial(image: XFile('')));
   }
 }
-
-//////////////////////////////////!
-//////////////////////////////////!
-//////////////////////////////////!
 
 class FilePickerVideoCubit extends Cubit<FilePickerVideoState> {
   FilePickerVideoCubit() : super(FilePickerVideoInitial(video: XFile('')));
@@ -44,10 +40,6 @@ class FilePickerVideoCubit extends Cubit<FilePickerVideoState> {
     emit(FilePickerVideoInitial(video: XFile('')));
   }
 }
-
-//////////////////////////////////!
-//////////////////////////////////!
-//////////////////////////////////!
 
 class FilePickerMultiImagesCubit extends Cubit<FilePickerMultiImagesState> {
   FilePickerMultiImagesCubit()
@@ -68,11 +60,3 @@ class FilePickerMultiImagesCubit extends Cubit<FilePickerMultiImagesState> {
     emit(const FilePickerMultiImagesInitial(multiImages: []));
   }
 }
-
-
-//////////////////////////////////!
-//////////////////////////////////!
-//////////////////////////////////!
-
- 
- 

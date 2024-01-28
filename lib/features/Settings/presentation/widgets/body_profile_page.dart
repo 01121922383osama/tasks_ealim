@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
 import 'package:photo_view/photo_view.dart';
+import '../../../../Core/Utils/media_query_value.dart';
+import '../../../../Core/Widgets/custom_button.dart';
 
 import '../../../../Core/Widgets/custom_texts.dart';
 import '../cubit/setting_cubit.dart';
+import '../pages/edit_page_setting.dart';
 
 class BodyProfilePage extends StatelessWidget {
   const BodyProfilePage({super.key});
@@ -71,6 +74,16 @@ class BodyProfilePage extends StatelessWidget {
                   title: CustomTexts(text: user.email!),
                 ),
                 const SizedBox(height: 20),
+                CustomButton(
+                  text: 'Edit',
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EditPageSetting(userEntity: user),
+                    ));
+                  },
+                  width: context.width,
+                  height: context.height * 0.07,
+                ),
               ],
             ),
           );

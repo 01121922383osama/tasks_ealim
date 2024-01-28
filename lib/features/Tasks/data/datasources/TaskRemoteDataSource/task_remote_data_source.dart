@@ -1,9 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../Core/Utils/app_string.dart';
@@ -23,8 +21,6 @@ abstract class TaskRemoteDataSource {
   Future<String> uploadImages({required File images});
   Future<String> uploadVideo({required XFile video});
 }
-////////////////////////////////////////////!
-////////////////////////////////////////////!
 
 class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
   final FirebaseStorage storage;
@@ -50,8 +46,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     await collection.doc(taskUserEntiy.id).set(newUser);
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<void> deleteTask({required TaskUserEntiy taskUserEntiy}) async {
     final collection = firestore.collection(taskUserEntiy.tasks!);
@@ -65,32 +59,20 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
 
   @override
   Future<List<TaskUserEntiy>> getAllTask({required String taskNmae}) async {
-    ////////////////////////////////////////////!!
-    ////////////////////////////////////////////!!
     final markting = await getAllMarktingTask();
     final support = await getAllSupportTask();
     final design = await getAllDesignTask();
-    ////////////////////////////////////////////!!
-    ////////////////////////////////////////////!!
 
-    var box = Hive.box<TaskUserEntiy>(AppStrings.allTaskHive);
-    List<TaskUserEntiy> existingUsers = box.values.toList();
     List<TaskUserEntiy> fetchedUsers = [];
 
     QuerySnapshot querySnapshot = await firestore.collection(taskNmae).get();
     for (var element in querySnapshot.docs) {
       fetchedUsers.add(TaskUserModel.fromDocumentSnapshot(element));
     }
-    List<TaskUserEntiy> newUsers = fetchedUsers
-        .where((user) =>
-            !existingUsers.any((existingUser) => user.id == existingUser.id))
-        .toList();
-    box.addAll(newUsers);
-    return existingUsers + newUsers + markting + support + design;
+
+    return fetchedUsers + markting + support + design;
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<TaskUserEntiy?> getTaskByTaskName({required String taskName}) async {
     QuerySnapshot querySnapshot = await firestore.collection(taskName).get();
@@ -103,8 +85,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     return null;
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<void> updateTask({required TaskUserEntiy taskUserEntiy}) async {
     final video = await uploadVideo(video: XFile(taskUserEntiy.videoUrl!));
@@ -128,8 +108,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     }
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<String> uploadImages({required File? images}) async {
     try {
@@ -154,8 +132,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     }
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<String> uploadVideo({required XFile? video}) async {
     try {
@@ -177,7 +153,6 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
       await uploadTask.whenComplete(() {});
 
       if (uploadTask.snapshot.state == TaskState.success) {
-        //! Get the download URL after the upload is complete
         String downloadURL = await storageReference.getDownloadURL();
         return downloadURL;
       } else {
@@ -188,84 +163,50 @@ class TaskRemoteDataSourceImpl implements TaskRemoteDataSource {
     }
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<List<TaskUserEntiy>> getAllDesignTask() async {
-    var box = Hive.box<TaskUserEntiy>(AppStrings.designHive);
-    List<TaskUserEntiy> existingUsers = box.values.toList();
     List<TaskUserEntiy> fetchedUsers = [];
     QuerySnapshot querySnapshot =
         await firestore.collection(AppStrings.designKEY).get();
     for (var element in querySnapshot.docs) {
       fetchedUsers.add(TaskUserModel.fromDocumentSnapshot(element));
     }
-    List<TaskUserEntiy> newUsers = fetchedUsers
-        .where((user) =>
-            !existingUsers.any((existingUser) => user.id == existingUser.id))
-        .toList();
-    box.addAll(newUsers);
-    return existingUsers + newUsers;
+
+    return fetchedUsers;
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<List<TaskUserEntiy>> getAllMarktingTask() async {
-    var box = Hive.box<TaskUserEntiy>(AppStrings.marktingHive);
-    List<TaskUserEntiy> existingUsers = box.values.toList();
     List<TaskUserEntiy> fetchedUsers = [];
     QuerySnapshot querySnapshot =
         await firestore.collection(AppStrings.marktingKEY).get();
     for (var element in querySnapshot.docs) {
       fetchedUsers.add(TaskUserModel.fromDocumentSnapshot(element));
     }
-    List<TaskUserEntiy> newUsers = fetchedUsers
-        .where((user) =>
-            !existingUsers.any((existingUser) => user.id == existingUser.id))
-        .toList();
-    log('message:${existingUsers.length}');
-    box.addAll(newUsers);
-    return existingUsers + newUsers;
+
+    return fetchedUsers;
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<List<TaskUserEntiy>> getAllProgramminTask() async {
-    var box = Hive.box<TaskUserEntiy>(AppStrings.programingHive);
-    List<TaskUserEntiy> existingUsers = box.values.toList();
     List<TaskUserEntiy> fetchedUsers = [];
     QuerySnapshot querySnapshot =
         await firestore.collection(AppStrings.programingKEY).get();
     for (var element in querySnapshot.docs) {
       fetchedUsers.add(TaskUserModel.fromDocumentSnapshot(element));
     }
-    List<TaskUserEntiy> newUsers = fetchedUsers
-        .where((user) =>
-            !existingUsers.any((existingUser) => user.id == existingUser.id))
-        .toList();
-    box.addAll(newUsers);
-    return existingUsers + newUsers;
+    return fetchedUsers;
   }
 
-  ////////////////////////////////////////////!!
-  ////////////////////////////////////////////!!
   @override
   Future<List<TaskUserEntiy>> getAllSupportTask() async {
-    var box = Hive.box<TaskUserEntiy>(AppStrings.suportHive);
-    List<TaskUserEntiy> existingUsers = box.values.toList();
     List<TaskUserEntiy> fetchedUsers = [];
     QuerySnapshot querySnapshot =
         await firestore.collection(AppStrings.supportKEY).get();
     for (var element in querySnapshot.docs) {
       fetchedUsers.add(TaskUserModel.fromDocumentSnapshot(element));
     }
-    List<TaskUserEntiy> newUsers = fetchedUsers
-        .where((user) =>
-            !existingUsers.any((existingUser) => user.id == existingUser.id))
-        .toList();
-    box.addAll(newUsers);
-    return existingUsers + newUsers;
+
+    return fetchedUsers;
   }
 }

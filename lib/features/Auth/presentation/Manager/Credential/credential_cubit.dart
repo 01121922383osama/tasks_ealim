@@ -24,7 +24,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   CredentialCubit({
     required this.loginUseCases,
     required this.registerUseCases,
-     required this.logoutUseCases,
+    required this.logoutUseCases,
     required this.currentUserIdUseCases,
     required this.getCurrentUserUseCases,
     required this.uploadImage,
@@ -77,8 +77,6 @@ class CredentialCubit extends Cubit<CredentialState> {
       }
     }
   }
-
- 
 
   Future<void> logout() async {
     try {

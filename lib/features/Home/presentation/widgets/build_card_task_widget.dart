@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shimmer/flutter_shimmer.dart';
-import '../../../../Core/Utils/app_colors.dart';
-import 'build_details_page.dart';
-import '../../../Tasks/domain/entities/task_user_entie.dart';
 
+import '../../../../Core/Utils/app_colors.dart';
 import '../../../../Core/Utils/media_query_value.dart';
+import '../../../Tasks/domain/entities/task_user_entie.dart';
+import 'build_details_page.dart';
 
 class BuildTasksCardWidget extends StatelessWidget {
   final Future<List<TaskUserEntiy>> taskname;
@@ -12,8 +12,8 @@ class BuildTasksCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: taskname.asStream(),
+    return FutureBuilder(
+      future: taskname,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SizedBox(
@@ -29,7 +29,7 @@ class BuildTasksCardWidget extends StatelessWidget {
         if (snapshot.hasData) {
           final data = snapshot.data;
           return ListView.separated(
-            padding:
+            padding:ذ
                 const EdgeInsets.only(top: 5, left: 15, right: 15, bottom: 5),
             separatorBuilder: (context, index) => SizedBox(
               height: context.height * 0.01,
@@ -49,20 +49,31 @@ class BuildTasksCardWidget extends StatelessWidget {
                 child: ListTile(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsPage(taskUserEntiy: data[index]),
+                      builder: (context) => DetailsPage(
+                        taskUserEntiy: data[index],
+                        index: index,
+                      ),
                     ));
                   },
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(data[index].tasks!,
-                          style: const TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          )),
-                      Text(data[index].nameOfTask!),
+                      Expanded(
+                        flex: 4,
+                        child: Text(data[index].tasks!,
+                            style: const TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            )),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          data[index].nameOfTask!,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                   subtitle: Row(

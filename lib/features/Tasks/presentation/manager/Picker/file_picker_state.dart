@@ -12,10 +12,6 @@ final class FilePickerImageInitial extends FilePickerImageState {
   const FilePickerImageInitial({required super.image});
 }
 
-//////////////////////////////////?
-//////////////////////////////////?
-//////////////////////////////////?
-
 sealed class FilePickerVideoState extends Equatable {
   final XFile video;
   const FilePickerVideoState({required this.video});
@@ -28,10 +24,6 @@ final class FilePickerVideoInitial extends FilePickerVideoState {
   const FilePickerVideoInitial({required super.video});
 }
 
-//////////////////////////////////?
-//////////////////////////////////?
-//////////////////////////////////?
-
 sealed class FilePickerMultiImagesState extends Equatable {
   final List<XFile> multiImages;
   const FilePickerMultiImagesState({required this.multiImages});
@@ -43,10 +35,6 @@ sealed class FilePickerMultiImagesState extends Equatable {
 final class FilePickerMultiImagesInitial extends FilePickerMultiImagesState {
   const FilePickerMultiImagesInitial({required super.multiImages});
 }
-
-//////////////////////////////////?
-//////////////////////////////////?
-//////////////////////////////////?
 
 sealed class FilePickerMultiVideoState extends Equatable {
   final List<XFile> multiVideos;

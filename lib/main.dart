@@ -3,13 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
+import 'package:tasks_ealim/features/Auth/presentation/Manager/ForgetPassword/foreget_password_cubit.dart';
 
 import 'Config/Routes/app_routes.dart';
 import 'Config/Routes/routs_name.dart';
 import 'Core/Utils/app_colors.dart';
-import 'Core/Utils/app_string.dart';
 import 'bloc_observer.dart';
 import 'features/App/presentation/manager/Toggle/toggle_cubit.dart';
 import 'features/Auth/presentation/Manager/Authentication/cubit/authentication_cubit.dart';
@@ -20,7 +18,6 @@ import 'features/Auth/presentation/Manager/Picker/pick_image_cubit.dart';
 import 'features/Auth/presentation/Manager/obscure_text.dart';
 import 'features/Chat/presentation/cubit/chat_cubit.dart';
 import 'features/Settings/presentation/cubit/setting_cubit.dart';
-import 'features/Tasks/domain/entities/task_user_entie.dart';
 import 'features/Tasks/presentation/manager/Picker/file_picker_cubit.dart';
 import 'features/Tasks/presentation/manager/TaskController/controler_task_blocs.dart';
 import 'features/Tasks/presentation/manager/cubit/tasks_cubit.dart';
@@ -38,14 +35,7 @@ void main() async {
   );
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await Hive.initFlutter();
   await di.init();
-  Hive.registerAdapter(TaskUserEntiyAdapter());
-  await Hive.openBox<TaskUserEntiy>(AppStrings.allTaskHive);
-  await Hive.openBox<TaskUserEntiy>(AppStrings.programingHive);
-  await Hive.openBox<TaskUserEntiy>(AppStrings.marktingHive);
-  await Hive.openBox<TaskUserEntiy>(AppStrings.suportHive);
-  await Hive.openBox<TaskUserEntiy>(AppStrings.designHive);
 
   runApp(const MyApp());
   Bloc.observer = SimpleBlocObserver();
@@ -120,7 +110,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
           useMaterial3: true,
           fontFamily: 'Poppins',
-          appBarTheme: const AppBarTheme(
+      appBarTheme: const AppBarTheme(
             backgroundColor: AppColors.lightRed,
           ),
         ),

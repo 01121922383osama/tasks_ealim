@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../Core/Widgets/check_internet.dart';
 
+import '../../../../Core/Widgets/check_internet.dart';
 import '../widgets/body_task_add_page.dart';
 
 class AddTasksPage extends StatelessWidget {

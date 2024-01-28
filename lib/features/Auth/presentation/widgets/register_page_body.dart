@@ -4,8 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:hive/hive.dart';
-import '../../../Tasks/domain/entities/task_user_entie.dart';
 
 import '../../../../Config/Routes/routs_name.dart';
 import '../../../../Core/Helper/randome_uid.dart';
@@ -83,9 +81,12 @@ class RegisterPageBody extends StatelessWidget {
                             context: context,
                             barrierDismissible: false,
                             builder: (BuildContext context) {
-                              return const AlertDialog(
-                                title: Center(
-                                  child: CircularProgressIndicator(),
+                              return const PopScope(
+                                canPop: false,
+                                child: AlertDialog(
+                                  title: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                                 ),
                               );
                             },
@@ -147,16 +148,6 @@ class RegisterPageBody extends StatelessWidget {
                               ),
                             );
                           }
-                          await Hive.openBox<TaskUserEntiy>(
-                              AppStrings.allTaskHive);
-                          await Hive.openBox<TaskUserEntiy>(
-                              AppStrings.programingHive);
-                          await Hive.openBox<TaskUserEntiy>(
-                              AppStrings.marktingHive);
-                          await Hive.openBox<TaskUserEntiy>(
-                              AppStrings.suportHive);
-                          await Hive.openBox<TaskUserEntiy>(
-                              AppStrings.designHive);
                         },
                         width: context.width * 0.9,
                         height: context.height * 0.08,

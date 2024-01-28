@@ -1,20 +1,105 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Utils/app_colors.dart';
+import '../../../../Core/Utils/app_string.dart';
 import '../../../../Core/Utils/media_query_value.dart';
 import '../../../../Core/Widgets/custom_texts.dart';
 import '../../../Tasks/domain/entities/task_user_entie.dart';
+import '../../../Tasks/presentation/manager/cubit/tasks_cubit.dart';
 import 'build_video_view.dart';
 
 class DetailsPage extends StatelessWidget {
   final TaskUserEntiy taskUserEntiy;
-  const DetailsPage({super.key, required this.taskUserEntiy});
+  final int index;
+  const DetailsPage(
+      {super.key, required this.taskUserEntiy, required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          taskUserEntiy.tasks != AppStrings.allTaskHive
+              ? PopupMenuButton(
+                  itemBuilder: (context) {
+                    return [
+                      const PopupMenuItem(
+                        value: 1,
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            SizedBox(width: 10),
+                            Text('Edit'),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 2,
+                        child: const Row(
+                          children: [
+                            Icon(CupertinoIcons.delete),
+                            SizedBox(width: 10),
+                            Text('Delete'),
+                          ],
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Delete'),
+                                content: const Text('Are you sure?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      BlocProvider.of<TasksCubit>(context)
+                                          .deleteTask(
+                                              taskUserEntiy: taskUserEntiy)
+                                          .then((value) async {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: Colors.green,
+                                            animation:
+                                                const AlwaysStoppedAnimation(1),
+                                            dismissDirection:
+                                                DismissDirection.startToEnd,
+                                            behavior: SnackBarBehavior.floating,
+                                            showCloseIcon: true,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                            ),
+                                            content: const Text(
+                                                'Deleted Successfully'),
+                                          ),
+                                        );
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      });
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ];
+                  },
+                )
+              : const SizedBox(),
+        ],
         title: Text(
           taskUserEntiy.tasks!,
           style: const TextStyle(
