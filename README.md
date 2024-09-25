@@ -1,16 +1,16 @@
 # tasks_ealim
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_1727276545](https://github.com/user-attachments/assets/a49943f3-6004-4021-a09d-0f948e37c015)
+![Screenshot_1727276535](https://github.com/user-attachments/assets/ef4713bc-45f7-4283-bdd4-bc5a875e2dff)
+![Screenshot_1727276527](https://github.com/user-attachments/assets/59f7ac81-e5bc-4543-b488-00a3cb89a516)
+![Screenshot_1727276503](https://github.com/user-attachments/assets/f6925f80-566a-461d-8f9b-655b8048c212)
+![Screenshot_1727276499](https://github.com/user-attachments/assets/92569e1e-8e55-4733-8ad0-bf177a3fc150)
+![Screenshot_1727276494](https://github.com/user-attachments/assets/7a4f799c-1466-4e4a-8447-236fb77460e9)
+![Screenshot_1727276484](https://github.com/user-attachments/assets/2a8315bf-01dd-4fa7-8505-4683eaecaf7e)
+![Screenshot_1727276473](https://github.com/user-attachments/assets/b4e26666-3a0d-4242-a1d9-9a5ad970764d)
+![Screenshot_1727276470](https://github.com/user-attachments/assets/b2438faa-fdd5-4b33-93b9-a73b83fed869)
+![Screenshot_1727276461](https://github.com/user-attachments/assets/d6bdfe3a-1918-410e-831f-f8a07585c49c)
+![Screenshot_1727276453](https://github.com/user-attachments/assets/d626c1f6-4423-4be7-a5ef-087acb509a8c)
+![Screenshot_1727276353](https://github.com/user-attachments/assets/43b53b9c-20c6-4b20-a4b5-38039dbb82c6)
+![Screenshot_1727276348](https://github.com/user-attachments/assets/5a203e24-1ee4-4c3a-b5b3-d8a929dec017)
+![Screenshot_1727276337](https://github.com/user-attachments/assets/7c859586-b971-485f-adb1-115d552f3640)
